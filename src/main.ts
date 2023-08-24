@@ -38,4 +38,6 @@ const initQianKun = () => {
 // @ts-ignore
 qiankunWindow.__POWERED_BY_QIANKUN__ ? initQianKun() : render();
 
+
+
 // createApp(App).mount("#app");
