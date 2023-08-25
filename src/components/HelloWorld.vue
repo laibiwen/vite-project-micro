@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch, inject } from "vue";
 
-defineProps<{ msg: string }>()
+defineProps<{ msg: string }>();
 
-const count = ref(0)
+const $QK_CTX = inject("$QK_CTX") as ACTION;
+
+const count = ref(0);
+watch(count, (value) => {
+  $QK_CTX.setGlobalState({ count: value });
+});
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 import "./public-path.js";
-import { createApp } from "vue";
+import { createApp, provide } from "vue";
 import "./style.css";
 import App from "./App.vue";
 import router from "@/router/index.js";
@@ -9,14 +9,13 @@ import {
 } from "vite-plugin-qiankun/dist/helper";
 
 // @ts-ignore
-let app;
+let app, $QK_CTX;
 
 // @ts-ignore
-const render = (container) => {
+const render = (container, props) => {
   app = createApp(App);
-  app
-    .use(router)
-    .mount(container ? container.querySelector("#app") : "#app");
+  app.provide("$QK_CTX", props);
+  app.use(router).mount(container ? container.querySelector("#app") : "#app");
 };
 
 const initQianKun = () => {
@@ -25,7 +24,7 @@ const initQianKun = () => {
     {
       mount(props) {
         const { container } = props;
-        render(container);
+        render(container, props);
       },
       bootstrap() {},
       unmount() {
@@ -37,7 +36,5 @@ const initQianKun = () => {
 };
 // @ts-ignore
 qiankunWindow.__POWERED_BY_QIANKUN__ ? initQianKun() : render();
-
-
 
 // createApp(App).mount("#app");
