@@ -2,6 +2,9 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { fileURLToPath } from "url";
 import qiankun from "vite-plugin-qiankun";
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -12,8 +15,25 @@ export default defineConfig(({ mode }) => {
         output: {},
       },
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@use "~/styles/element/index.scss" as *;`,
+        },
+      },
+    },
     plugins: [
       vue(),
+      AutoImport({
+        resolvers: [ElementPlusResolver()],
+      }),
+      Components({
+        resolvers: [
+          ElementPlusResolver({
+            importStyle: "sass",
+          }),
+        ],
+      }),
       qiankun("app-vue", {
         useDevMode: true,
       }),
@@ -28,6 +48,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
+        "~": fileURLToPath(new URL("./src", import.meta.url)),
       },
     },
   };

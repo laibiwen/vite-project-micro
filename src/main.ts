@@ -8,6 +8,8 @@ import {
   qiankunWindow,
 } from "vite-plugin-qiankun/dist/helper";
 
+import ElementPlus from "element-plus";
+
 // @ts-ignore
 let app, $QK_CTX;
 
@@ -15,7 +17,10 @@ let app, $QK_CTX;
 const render = (container, props) => {
   app = createApp(App);
   app.provide("$QK_CTX", props);
-  app.use(router).mount(container ? container.querySelector("#app") : "#app");
+  app
+    .use(router)
+    .use(ElementPlus)
+    .mount(container ? container.querySelector("#app") : "#app");
 };
 
 const initQianKun = () => {
